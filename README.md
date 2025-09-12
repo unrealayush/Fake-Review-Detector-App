@@ -1,64 +1,77 @@
-Fake Review Detector App
-Project Overview
-This project is a web application designed to detect fake reviews. The application uses machine learning to classify reviews as either "authentic" or "deceptive" (fake). It provides a user-friendly interface where users can input a review and receive an instant prediction.
+# Fake Review Detector App
 
-Features
-Review Prediction: The core functionality of the app is to analyze and predict the authenticity of a given review.
+This project is a machine learning based application that detects whether a review is **fake or genuine** and also performs **sentiment analysis**.  
+You can run and test the project easily on **Google Colab** without any local setup.
 
-Sentiment Analysis: The app also performs sentiment analysis on the reviews, classifying them as "positive," "negative," or "neutral."
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/unrealayush/Fake-Review-Detector-App/blob/main/Review_Detection.ipynb)
 
-Interactive UI: A simple and clean user interface for easy interaction.
+---
 
-Technologies Used
-Python: The backend logic for the machine learning model.
+## How to Use on Google Colab
 
-Flask: A micro-framework for building the web application.
+1. **Open Google Colab**
 
-HTML/CSS/JavaScript: Frontend for the user interface.
+   Go to [Google Colab](https://colab.research.google.com/).
 
-Machine Learning: Utilizes a pre-trained model for classification.
+2. **Clone the Repository**
 
-Execution Steps
-Follow these steps to set up and run the application on your local machine.
+   In a new Colab notebook, run:
 
-Step 1: Clone the Repository
-First, you need to download the project files to your computer. Open your terminal or command prompt and run the following command:
+   ```python
+   !git clone https://github.com/unrealayush/Fake-Review-Detector-App.git
+   %cd Fake-Review-Detector-App
+   ```
 
-git clone [https://github.com/unrealayush/Fake-Review-Detector-App.git](https://github.com/unrealayush/Fake-Review-Detector-App.git)
+3. **Install Dependencies**
 
-Step 2: Navigate to the Project Directory
-Change your current directory to the cloned project folder:
+   ```python
+   !pip install -r requirements.txt
+   ```
 
-cd Fake-Review-Detector-App
+4. **Run the Jupyter Notebook**
 
-Step 3: Set Up the Virtual Environment (Recommended)
-It's a best practice to use a virtual environment to manage dependencies. This ensures that the project's libraries do not conflict with other Python projects on your computer.
+   Open the training / analysis notebook:
 
-python -m venv venv
+   ```python
+   from google.colab import drive
+   drive.mount('/content/drive')   # optional if saving results to Google Drive
+   ```
 
-Activate the virtual environment:
+   Or directly run:
 
-On Windows:
+   ```python
+   !jupyter nbconvert --to notebook --execute Review_Detection.ipynb --output=output.ipynb
+   ```
 
-venv\Scripts\activate
+   This will execute the notebook and generate results.
 
-On macOS/Linux:
+5. **Test the Model**
 
-source venv/bin/activate
+   Load the saved pipeline (`review_pipeline.pkl`) and predict on custom input:
 
-Step 4: Install Dependencies
-With the virtual environment active, install all the required Python libraries using the requirements.txt file.
+   ```python
+   import pickle
 
-pip install -r requirements.txt
+   with open("review_pipeline.pkl", "rb") as f:
+       model = pickle.load(f)
 
-Step 5: Run the Flask Application
-Finally, start the Flask web server. This will make the application accessible in your web browser.
+   sample_review = "This product is amazing, I loved it!"
+   prediction = model.predict([sample_review])[0]
+   print("Prediction:", prediction)
+   ```
 
-python app.py
+   Output will show whether the review is **fake / genuine** and its **sentiment**.
 
-Step 6: Access the App
-Open your web browser and go to the following URL to use the application:
+---
 
-[http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+## Notes
 
-You can now enter a review in the text box and click the "Predict" button to see the results.
+- You don’t need ChromeDriver or Flask when running on Colab (those are for the local web app).  
+- On Colab, you can directly work with the **dataset CSV files** and the **model notebook**.  
+- To deploy the web app version, you would need to run `app.py` locally.
+
+---
+
+## Author
+
+[unrealayush](https://github.com/unrealayush)
